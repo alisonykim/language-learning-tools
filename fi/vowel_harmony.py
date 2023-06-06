@@ -14,14 +14,28 @@ def get_vowels(word: str) -> List[str]:
 
 def return_vowel_group(word: str) -> str:
 	"""
-	Determine the vowel group that preserves vowel harmony.
+	Determine the vowel group that preserves vowel harmony for ```word```.
 	
 	Rules:
-		1. All vowels in "AOU" or "AUOIE" -> "AOU"
-		2. All vowels in "ÄÖY" and/or "IE" -> "ÄÖY"
+		1. All vowels of ```word``` in "AOU" or "AOUIE" -> "AOU"
+		2. All vowels of ```word``` in "ÄÖY", "AÖYIE", or "IE" -> "ÄÖY"
 	
 	Note:
-		Assumes that ```word``` is not a compound and has native Finnish etymology, as no native non-compound word can contain vowels from the group {a, o, u} together with vowels from the group {ä, ö, y}.
+		Assumes that ```word``` is NOT a compound and has native Finnish etymology: a native non-compound word cannot contain vowels from the group {a, o, u} *together* with vowels from the group {ä, ö, y}.
+	
+	Example:
+	>>> word1 = 'Oulu'
+	>>> word2 = 'Jyväskylää'
+	>>> word3 = 'Helsingi'
+	>>> word4 = 'Rovaniemi'
+	>>> return_vowel_group(word1)
+	'aou'
+	>>> return_vowel_group(word2)
+	'äöy'
+	>>> return_vowel_group(word3)
+	'äöy'
+	>>> return_vowel_group(word4)
+	'aou'
 	"""
 	vowels = get_vowels(word)
 	if any(vowel in 'äöy' for vowel in vowels) or all(vowel in 'ie' for vowel in vowels):
