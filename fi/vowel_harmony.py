@@ -59,9 +59,10 @@ def return_vowel_group(word: str) -> str:
 
 def give_example_endings(word: str) -> str:
 	"""Provide example endings for ```word```, given its vowel harmony group."""
-	if return_vowel_group(word) in ['neutral', 'back', 'back + neutral']:
+	vowel_group = return_vowel_group(word)
+	if vowel_group in ['neutral', 'back', 'back + neutral']:
 		return '-ssä, -vät, -kö'
-	elif return_vowel_group(word) in ['front', 'front + neutral']:
+	elif vowel_group in ['front', 'front + neutral']:
 		return '-ssa, -vat, -ko'
 	else:
 		return 'unknown'
