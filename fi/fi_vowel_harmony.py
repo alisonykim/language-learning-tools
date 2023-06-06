@@ -38,8 +38,9 @@ def give_example_endings(word: str) -> str:
 
 if __name__ == '__main__':
 	word = input('Enter a native Finnish, non-compound word: ')
-	if not word or not word.isalpha():
-		raise NameError(f'You must provide a valid alphabetic word. Please try again.')
+	if not word:
+		raise NameError(f'You must provide an input.')
+	
 	harmony_group = return_vowel_group(word)
 	print(f'The corresponding vowel group for "{word}": {harmony_group}')
 	valid_endings = give_example_endings(word)
