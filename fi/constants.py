@@ -14,7 +14,7 @@ STRONG_TO_WEAK_GRAD = {
 	'nk': 'ng',
 	'nt': 'nn',
 	'mp': 'mm',
-	'lt': 'l',
+	'lt': 'll',
 	'rt': 'rr',
 	'k': '',
 	'p': 'v',
