@@ -66,6 +66,7 @@ if __name__ == '__main__':
 	example = produce_nom_plural_example(word)
 
 	if forms is not None and len(forms) == 3:
+		print('')
 		strong, weak, transformation = forms
 		if not guess_weak:
 			weak = ''
