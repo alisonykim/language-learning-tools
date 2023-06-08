@@ -9,6 +9,11 @@ from typing import List, Tuple
 import constants
 
 
+def get_consonants_and_indices(word: str) -> List[Tuple[int, str]]:
+	"""Identify all consonants in ```word``` and their respective indices."""
+	return [(idx, char) for idx, char in enumerate(word) if char not in constants.FINNISH_VOWELS]
+
+
 def get_vowels_and_indices(word: str) -> List[Tuple[int, str]]:
 	"""Identify all vowels in ```word``` and their respective indices."""
 	return [(idx, char) for idx, char in enumerate(word) if char in constants.FINNISH_VOWELS]
