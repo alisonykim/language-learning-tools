@@ -6,24 +6,14 @@
 Master Finnish vowel harmony.
 
 Rules for native non-compound Finnish words:
-	1. All vowels of ```word``` in "AOU" -> front
-	2. All vowels of ```word``` in "AOUIE" -> front + neutral
-	3. All vowels of ```word``` in "ÄÖY" -> back
-	4. All vowels of ```word``` in "ÄÖYIE" -> back + neutral
-	5. All vowels of ```word``` in "IE" -> neutral
+	1. All vowels of ```word``` in "IE" -> neutral
+	2. All vowels of ```word``` in "AOU" -> front
+	3. All vowels of ```word``` in "AOUIE" -> front + neutral
+	4. All vowels of ```word``` in "ÄÖY" -> back
+	5. All vowels of ```word``` in "ÄÖYIE" -> back + neutral
 """
 
-from typing import List
-
-import constants
-
-
-def get_consonants(word: str) -> List[str]:
-	return [char.lower() for char in word if char not in constants.FINNISH_VOWELS]
-
-
-def get_vowels(word: str) -> List[str]:
-	return [char.lower() for char in word if char in constants.FINNISH_VOWELS]
+import utils
 
 
 def return_vowel_group(word: str) -> str:
@@ -47,19 +37,21 @@ def return_vowel_group(word: str) -> str:
 	>>> return_vowel_group(word4)
 	'back + neutral'
 	"""
-	vowels = get_vowels(word)
+	vowels = [vowel[1] for vowel in utils.get_vowels_and_indices(word)]
 	if not vowels:
 		return f'inconclusive: "{word}" does not contain vowels'
-	elif all(vowel in 'aou' for vowel in vowels): # Rule 1
-		return 'front'
-	elif all(vowel in 'aouie' for vowel in vowels): # Rule 2
-		return 'front + neutral'
-	elif all(vowel in 'äöy' for vowel in vowels): # Rule 3
-		return 'back'
-	elif all(vowel in 'äöyie' for vowel in vowels): # Rule 4
-		return 'back + neutral'
-	else: # Rule 5
+	elif all(vowel in 'ie' for vowel in vowels): # Rule 1
 		return 'neutral'
+	elif all(vowel in 'aou' for vowel in vowels): # Rule 2
+		return 'front'
+	elif all(vowel in 'aouie' for vowel in vowels): # Rule 3
+		return 'front + neutral'
+	elif all(vowel in 'äöy' for vowel in vowels): # Rule 4
+		return 'back'
+	elif all(vowel in 'äöyie' for vowel in vowels): # Rule 5
+		return 'back + neutral'
+	else:
+		return None
 
 
 def give_example_endings(word: str) -> str:
@@ -78,7 +70,7 @@ if __name__ == '__main__':
 	if not word:
 		raise NameError(f'You must provide an input.')
 	
-	harmony_group = return_vowel_group(word)
-	print(f'The corresponding vowel group for "{word}": {harmony_group}')
+	vowel_group = return_vowel_group(word)
+	print(f'The corresponding vowel group for "{word}": {vowel_group}')
 	valid_endings = give_example_endings(word)
 	print(f'Examples of valid endings: {valid_endings}')
