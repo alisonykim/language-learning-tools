@@ -72,26 +72,26 @@ if __name__ == '__main__':
 		if strong == guess_strong and weak == guess_weak:
 			print('Correct!')
 			print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}"')
-			print(f'The nominative plural form of {word} is {example}.')
+			print(f'The nominative plural form of "{word}" is "{example}".')
 		elif strong == guess_strong and weak != guess_weak:
 			print(f'Half correct!')
 			print(f'You guessed the correct STRONG form "{guess_strong}".')
 			print(f'However, you guessed the wrong WEAK form: it is not "{guess_weak}", but rather "{weak}".')
 			print('')
 			print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-			print(f'The nominative plural form of {word} is {example}.')
+			print(f'The nominative plural form of "{word}" is "{example}".')
 		elif strong != guess_strong and weak == guess_weak:
 			print(f'Half correct!')
 			print(f'You guessed the correct WEAK form "{guess_weak}".')
 			print(f'However, you guessed the wrong STRONG form: it is not "{guess_strong}", but rather "{strong}".')
 			print('')
 			print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-			print(f'The nominative plural form of {word} is {example}.')
+			print(f'The nominative plural form of "{word}" is "{example}".')
 		else:
 			print(f'Incorrect!')
 			print(f'You guessed the STRONG form "{guess_strong}" and WEAK form "{guess_weak}".')
 			print('')
 			print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-			print(f'The nominative plural form of {word} is {example}.')
+			print(f'The nominative plural form of "{word}" is "{example}".')
 	else:
 		print(f'The word {word} does not undergo consonant gradation.')
