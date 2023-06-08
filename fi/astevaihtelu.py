@@ -52,12 +52,12 @@ def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
 	''
 	"""
 	final_syllable = utils.get_final_syllable(word)
+	final_syllable_consonants = ''.join([cons[1] for cons in utils.get_consonants_and_indices(final_syllable)])
 	try:
-		for strong_form in constants.STRONG_TO_WEAK_GRAD.keys():
-			if strong_form in final_syllable:
-				weak_form = constants.STRONG_TO_WEAK_GRAD[strong_form]
-				transformation = re.sub(strong_form, weak_form, final_syllable, flags=re.IGNORECASE)
-				return strong_form, weak_form, transformation
+		if final_syllable_consonants in constants.STRONG_TO_WEAK_GRAD.keys():
+			weak_form = constants.STRONG_TO_WEAK_GRAD[final_syllable_consonants]
+			transformation = re.sub(final_syllable_consonants, weak_form, final_syllable, flags=re.IGNORECASE)
+			return final_syllable_consonants, weak_form, transformation
 	except KeyError:
 		print(f'The word "{word}" either does not undergo consonant gradation or the correct gradation is not currently recognized by this script.')
 		return ''
@@ -74,7 +74,7 @@ def produce_nom_plural_example(word: str) -> Union[str, None]:
 
 
 if __name__ == '__main__':
-	word = input('Please input a Wordtype A word: ')
+	word = input('Please input a Wordtype A nominal (nom. sing.): ')
 	guess_strong = input('Which consonant(s) do you think undergo gradation?: ')
 	guess_weak = input('Which consonant(s) do you think are produced from gradation?: ')
 	forms = get_transformation(word)
