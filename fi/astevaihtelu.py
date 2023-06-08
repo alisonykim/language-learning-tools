@@ -30,6 +30,7 @@ import re
 
 import constants
 import utils
+import vokaaliharmonia
 
 
 def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
@@ -47,12 +48,14 @@ def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
 		return ''
 
 
-def produce_nom_plural_example(word: str) -> Union[str, None]:
-	"""Give an example of a nominative plural transformation."""
+def produce_inessive_example(word: str) -> Union[str, None]:
+	"""Give an example of a transformation from the nominative singular to the inessive case."""
 	preceding_syllables = utils.get_preceding_syllables(word)
 	try:	
 		transformation = get_transformation(word)[2]
-		return preceding_syllables + transformation + 't'
+		if vokaaliharmonia.get_vowel_group(word) == 'back' or 'back + neutral':
+			return preceding_syllables + transformation + 'ssä'
+		return preceding_syllables + transformation + 'ssa'
 	except IndexError:
 		print(f'The word "{word}" does not undergo consonant gradation.')
 		return None
@@ -63,7 +66,7 @@ if __name__ == '__main__':
 	guess_strong = input('Which consonant(s) do you think undergo gradation?: ')
 	guess_weak = input('Which consonant(s) do you think are produced from gradation?: ')
 	forms = get_transformation(word)
-	example = produce_nom_plural_example(word)
+	example = produce_inessive_example(word)
 
 	if forms is not None and len(forms) == 3:
 		print('')

@@ -26,7 +26,7 @@ def get_vowels(word: str) -> List[str]:
 	return [char.lower() for char in word if char in constants.FINNISH_VOWELS]
 
 
-def return_vowel_group(word: str) -> str:
+def get_vowel_group(word: str) -> str:
 	"""
 	Determine the vowel group that preserves vowel harmony for ```word```.
 	
@@ -38,13 +38,13 @@ def return_vowel_group(word: str) -> str:
 	>>> word2 = 'Sveitsi' # "EII" in "IE"
 	>>> word3 = 'Saksa' # "AA" in "AOU"
 	>>> word4 = 'Venäjä' # "EÄÄ" in "ÄÖYIE"
-	>>> return_vowel_group(word1)
+	>>> get_vowel_group(word1)
 	'front + neutral'
-	>>> return_vowel_group(word2)
+	>>> get_vowel_group(word2)
 	'neutral'
-	>>> return_vowel_group(word3)
+	>>> get_vowel_group(word3)
 	'front'
-	>>> return_vowel_group(word4)
+	>>> get_vowel_group(word4)
 	'back + neutral'
 	"""
 	vowels = get_vowels(word)
@@ -64,7 +64,7 @@ def return_vowel_group(word: str) -> str:
 
 def give_example_endings(word: str) -> str:
 	"""Provide example endings for ```word```, given its vowel harmony group."""
-	vowel_group = return_vowel_group(word)
+	vowel_group = get_vowel_group(word)
 	if vowel_group in ['neutral', 'back', 'back + neutral']:
 		return '-ssä, -vät, -kö'
 	elif vowel_group in ['front', 'front + neutral']:
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 	if not word:
 		raise NameError(f'You must provide an input.')
 	
-	harmony_group = return_vowel_group(word)
+	harmony_group = get_vowel_group(word)
 	print(f'The corresponding vowel group for "{word}": {harmony_group}')
 	valid_endings = give_example_endings(word)
 	print(f'Examples of valid endings: {valid_endings}')
