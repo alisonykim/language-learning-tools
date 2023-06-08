@@ -35,7 +35,6 @@ import utils
 def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
 	"""Perform consonant gradation from strong to weak forms."""
 	final_syllable = utils.get_final_syllable(word)
-	print(f'word {word}, final syllable {final_syllable}')
 	try:
 		for strong_form in constants.STRONG_TO_WEAK_GRAD.keys():
 			if strong_form in final_syllable:
