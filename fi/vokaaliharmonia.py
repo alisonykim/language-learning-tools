@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# vowel_harmony.py
+# vokaaliharmonia.py
 
 """
 Master Finnish vowel harmony.
@@ -15,10 +15,15 @@ Rules for native non-compound Finnish words:
 
 from typing import List
 
+import constants
+
+
+def get_consonants(word: str) -> List[str]:
+	return [char.lower() for char in word if char not in constants.FINNISH_VOWELS]
+
 
 def get_vowels(word: str) -> List[str]:
-	vowels = 'aäeioöuy'
-	return [char.lower() for char in word if char in vowels]
+	return [char.lower() for char in word if char in constants.FINNISH_VOWELS]
 
 
 def return_vowel_group(word: str) -> str:
