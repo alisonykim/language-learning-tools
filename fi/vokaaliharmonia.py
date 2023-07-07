@@ -13,6 +13,8 @@ Rules for native non-compound Finnish words:
 	5. All vowels of ```word``` in "ÄÖYIE" -> back + neutral
 """
 
+from termcolor import colored
+
 import utils
 
 
@@ -66,11 +68,14 @@ def give_example_endings(word: str) -> str:
 
 
 if __name__ == '__main__':
-	word = input('Enter a native Finnish, non-compound word: ')
+	print('-' * 89)
+	word = input('Enter a native Finnish, non-compound word:\n')
 	if not word:
 		raise NameError(f'You must provide an input.')
 	
+	print('')
 	vowel_group = return_vowel_group(word)
-	print(f'The corresponding vowel group for "{word}": {vowel_group}')
+	print(f'The corresponding vowel group for \033[1m{colored(word.upper(), "blue")}\033[0m: {vowel_group}')
 	valid_endings = give_example_endings(word)
-	print(f'Examples of valid endings: {valid_endings}')
+	print(f'Examples of valid endings: {colored(valid_endings, "blue")}')
+	print('-' * 89)
