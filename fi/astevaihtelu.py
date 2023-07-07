@@ -24,6 +24,7 @@ into one of the following WEAK endings:
 	W10. instructive: "-in"
 """
 
+from termcolor import colored
 from typing import Tuple, Union
 
 import re
@@ -52,14 +53,17 @@ def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
 	''
 	"""
 	final_syllable = utils.get_final_syllable(word)
-	final_syllable_consonants = ''.join([cons[1] for cons in utils.get_consonants_and_indices(final_syllable)])
+	final_syllable_consonants = ''.join([consonant[1] for consonant in utils.get_consonants_and_indices(final_syllable)])
 	try:
-		if final_syllable_consonants in constants.STRONG_TO_WEAK_GRAD.keys():
-			weak_form = constants.STRONG_TO_WEAK_GRAD[final_syllable_consonants]
-			transformation = re.sub(final_syllable_consonants, weak_form, final_syllable, flags=re.IGNORECASE)
-			return final_syllable_consonants, weak_form, transformation
+		if final_syllable_consonants[-2:] in constants.STRONG_TO_WEAK_GRAD.keys():
+			target_consonants = final_syllable_consonants[-2:]
+		elif final_syllable_consonants[-1] in constants.STRONG_TO_WEAK_GRAD.keys():
+			target_consonants = final_syllable_consonants[-1]
+		weak_form = constants.STRONG_TO_WEAK_GRAD[target_consonants]
+		transformation = re.sub(target_consonants, weak_form, final_syllable, flags=re.IGNORECASE)
+		return target_consonants, weak_form, transformation
 	except KeyError:
-		print(f'The word "{word}" either does not undergo consonant gradation or the correct gradation is not currently recognized by this script.')
+		print(f'The word {colored(word.upper(), "blue")} either does not undergo consonant gradation or the correct gradation is not currently recognized by this script.')
 		return ''
 
 
@@ -74,25 +78,31 @@ def produce_nom_plural_example(word: str) -> Union[str, None]:
 
 
 if __name__ == '__main__':
-	word = input('Please input a Wordtype A nominal (nom. sing.): ')
-	guess_strong = input('Which consonant(s) do you think undergo gradation?: ')
-	guess_weak = input('Which consonant(s) do you think are produced from gradation?: ')
+	print('-' * 89)
+	word = input('Please input a Wordtype A nominal (nom. sing.):\n')
+	print('')
+	guess_strong = input('Which consonant(s) do you think undergo/es gradation?:\n')
+	print('')
+	guess_weak = input('Which consonant(s) do you think is/are produced from gradation?:\n')
 	forms = get_transformation(word)
 	example = produce_nom_plural_example(word)
-
 	print('')
 
 	if example == word + 't':
 		if not guess_strong and not guess_weak:
+			print('\033[1m')
 			print('Correct!')
+			print('\033[0m')
 			print('')
-			print(f'The word "{word}" does not undergo consonant gradation.')
-			print(f'The nominative plural form of "{word}" is "{example}".')
+			print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m does not undergo consonant gradation.')
+			print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')
 		else:
+			print('\033[1m')
 			print('Incorrect!')
+			print('\033[0m')
 			print('')
-			print(f'The word "{word}" does not undergo consonant gradation.')
-			print(f'The nominative plural form of "{word}" is "{example}".')
+			print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m does not undergo consonant gradation.')
+			# print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')
 	else:
 		if forms is not None and len(forms) == 3:
 			strong, weak, transformation = forms
@@ -100,35 +110,42 @@ if __name__ == '__main__':
 				weak = ''
 			
 			if strong == guess_strong and weak == guess_weak:
+				print('\033[1m')
 				print('Correct!')
+				print('\033[0m')
 				print('')
 				if example == word + 't':
-					print(f'The word "{word}" does not undergo consonant gradation.')
+					print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m does not undergo consonant gradation.')
 				else:
-					print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}"')
-					print(f'The nominative plural form of "{word}" is "{example}".')				
+					print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m undergoes the following consonant gradation: {strong} -> \033[1m{colored(weak, "blue")}\033[0m')
+					# print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')				
 			elif strong == guess_strong and weak != guess_weak:
-				print(f'Half correct!')
+				print('\033[1m')
+				print('Half correct!')
+				print('\033[0m')
+				print(f'You guessed the correct STRONG form \033[1m{guess_strong}\033[0m.')
+				print(f'However, you guessed the wrong WEAK form: it is not {guess_weak}, but rather \033[1m{colored(weak, "blue")}\033[0m.')
 				print('')
-				print(f'You guessed the correct STRONG form "{guess_strong}".')
-				print(f'However, you guessed the wrong WEAK form: it is not "{guess_weak}", but rather "{weak}".')
-				print('')
-				print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-				print(f'The nominative plural form of "{word}" is "{example}".')
+				print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m undergoes the following consonant gradation: {strong} -> \033[1m{colored(weak, "blue")}\033[0m.')
+				# print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')
 			elif strong != guess_strong and weak == guess_weak:
-				print(f'Half correct!')
+				print('\033[1m')
+				print('Half correct!')
+				print('\033[0m')
 				print('')
-				print(f'You guessed the correct WEAK form "{guess_weak}".')
-				print(f'However, you guessed the wrong STRONG form: it is not "{guess_strong}", but rather "{strong}".')
+				print(f'You guessed the correct WEAK form {guess_weak}.')
+				print(f'However, you guessed the wrong STRONG form: it is not {guess_strong}, but rather \033[1m{strong}\033[0m.')
 				print('')
-				print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-				print(f'The nominative plural form of "{word}" is "{example}".')
+				print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m undergoes the following consonant gradation: {strong} -> \033[1m{colored(weak, "blue")}\033[0m.')
+				# print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')
 			else:
 				print(f'Incorrect!')
 				print('')
-				print(f'You guessed the STRONG form "{guess_strong}" and WEAK form "{guess_weak}".')
+				print(f'You guessed the STRONG form {guess_strong} and WEAK form {guess_weak}.')
 				print('')
-				print(f'The word "{word}" undergoes the following consonant gradation: "{strong}" -> "{weak}".')
-				print(f'The nominative plural form of "{word}" is "{example}".')
+				print(f'The word {colored(word.upper(), "blue")} undergoes the following consonant gradation: {strong} -> \033[1m{colored(weak, "blue")}\033[0m.')
+				# print(f'The nominative plural form of {colored(word.upper(), "blue")} is {example}.')
 		else:
-			print(f'The word "{word}" either does not undergo consonant gradation or its gradation is not recognized by the script at this time.')
+			print(f'The word \033[1m{colored(word.upper(), "blue")}\033[0m either does not undergo consonant gradation or its gradation is not recognized by the script at this time.')
+	
+	print('-' * 89)
