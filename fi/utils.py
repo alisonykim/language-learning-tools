@@ -37,5 +37,5 @@ def get_preceding_syllables(word: str) -> str:
 	try:
 		penultimate_vowel_idx = get_vowels_and_indices(word)[-2][0]
 		return word[:penultimate_vowel_idx+1]
-	except KeyError:
+	except KeyError:	
 		raise ValueError(f'The inputted word "{word}" must have 2 or more syllables. Please try again with a multisyllabic word.')
