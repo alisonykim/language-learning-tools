@@ -62,7 +62,7 @@ def get_transformation(word: str) -> Union[Tuple[str, str, str], None, str]:
 		weak_form = constants.STRONG_TO_WEAK_GRAD[target_consonants]
 		transformation = re.sub(target_consonants, weak_form, final_syllable, flags=re.IGNORECASE)
 		return target_consonants, weak_form, transformation
-	except KeyError:
+	except:
 		print(f'The word {colored(word.upper(), "blue")} either does not undergo consonant gradation or the correct gradation is not currently recognized by this script.')
 		return ''
 
